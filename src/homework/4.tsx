@@ -1,28 +1,42 @@
-import React, { createContext, useMemo, useState, useContext } from "react";
+import React, { createContext, useMemo, useState, useContext, ReactNode } from "react";
 import noop from "lodash/noop";
 
+// Описуємо тип MenuIds
 type MenuIds = "first" | "second" | "last";
+
+// Описуємо тип Menu
 type Menu = { id: MenuIds; title: string };
 
-// Додати тип Menu Selected
+// Додаємо тип для SelectedMenu
+type SelectedMenu = { id: MenuIds };
 
+// Додаємо тип для MenuSelected
+type MenuSelected = {
+  selectedMenu: SelectedMenu;
+};
+
+// Додаємо тип для MenuAction
+type MenuAction = {
+  onSelectedMenu: (menu: SelectedMenu) => void;
+};
+
+// Додаємо тип для PropsProvider
+type PropsProvider = {
+  children: ReactNode;
+};
+
+// Ініціалізація контекстів із правильними типами
 const MenuSelectedContext = createContext<MenuSelected>({
-  selectedMenu: {},
+  selectedMenu: { id: "first" }, // встановлення початкового значення
 });
-
-// Додайте тип MenuAction
 
 const MenuActionContext = createContext<MenuAction>({
   onSelectedMenu: noop,
 });
 
-type PropsProvider = {
-  children; // Додати тип для children
-};
-
 function MenuProvider({ children }: PropsProvider) {
-  // Додати тип для SelectedMenu він повинен містити { id }
-  const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>({});
+  // Ініціалізуємо стан із початковим значенням для SelectedMenu
+  const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>({ id: "first" });
 
   const menuContextAction = useMemo(
     () => ({
@@ -47,8 +61,9 @@ function MenuProvider({ children }: PropsProvider) {
   );
 }
 
+// Додаємо тип для PropsMenu
 type PropsMenu = {
-  menus; // Додайте вірний тип для меню
+  menus: Menu[];
 };
 
 function MenuComponent({ menus }: PropsMenu) {
@@ -59,8 +74,7 @@ function MenuComponent({ menus }: PropsMenu) {
     <>
       {menus.map((menu) => (
         <div key={menu.id} onClick={() => onSelectedMenu({ id: menu.id })}>
-          {menu.title}{" "}
-          {selectedMenu.id === menu.id ? "Selected" : "Not selected"}
+          {menu.title} {selectedMenu.id === menu.id ? "Selected" : "Not selected"}
         </div>
       ))}
     </>
