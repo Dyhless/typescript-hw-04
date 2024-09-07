@@ -1,4 +1,20 @@
-import React, {useReducer} from "react";
+import React, { useReducer } from "react";
+
+// RequestStep: це рядковий літерал, що представляє можливі стани запиту
+type RequestStep = "idle" | "start" | "pending" | "finished";
+
+// State: об'єкт, що містить властивості isRequestInProgress і requestStep
+interface State {
+  isRequestInProgress: boolean,
+  requestStep: RequestStep;
+}
+
+// Action: можливі дії, які можуть бути відправлені до редюсера
+type Action =
+  | { type: "START_REQUEST" }
+  | { type: "PENDING_REQUEST" }
+  | { type: "FINISH_REQUEST" }
+  | { type: "RESET_REQUEST" };
 
 const initialState: State = {
   isRequestInProgress: false,
