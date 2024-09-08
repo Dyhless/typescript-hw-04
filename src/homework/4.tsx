@@ -35,6 +35,7 @@ const MenuActionContext = createContext<MenuAction>({
 });
 
 function MenuProvider({ children }: PropsProvider) {
+  
   // Ініціалізуємо стан із початковим значенням для SelectedMenu
   const [selectedMenu, setSelectedMenu] = useState<SelectedMenu>({ id: "first" });
 
