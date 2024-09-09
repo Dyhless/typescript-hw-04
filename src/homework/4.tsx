@@ -25,7 +25,7 @@ type PropsProvider = {
   children: ReactNode;
 };
 
-// Ініціалізація контекстів із правильними типами
+// Ініціалізація контекстів із правильними типами.
 const MenuSelectedContext = createContext<MenuSelected>({
   selectedMenu: { id: "first" }, // встановлення початкового значення
 });
